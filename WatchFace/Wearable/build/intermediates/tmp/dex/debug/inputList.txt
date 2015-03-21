@@ -1,0 +1,10 @@
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\classes\debug
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-1e774da7a8d728bc39b994e76e85ea2536e30432.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-8bace5f695a043c0c8f2d181c0f95f59582cf915.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-f8085dcd3b52fa2c9da59cc15340b44c66e647dd.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-6c74d18c9d4d3f919d84dfea57e5570d8e0f5701.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-6bc4c760c345a7c2abac17253a0d7e844ab94a8a.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-578fedae3769648d2cf289df42b606cf03e0a0df.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-2434341a5b6cfbe946d9ea1d02b07764bcb36f79.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-723c7a273337001a5da4cb036afa4e09faf705d0.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-cef5c7cbec9c41a7d4227d08bdaf354c2a5e5997.jar

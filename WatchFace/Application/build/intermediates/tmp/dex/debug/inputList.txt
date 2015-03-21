@@ -1,0 +1,10 @@
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\classes\debug
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-d64e3a6e7212754becd4af6e4428a5fd38d611f1.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-8bace5f695a043c0c8f2d181c0f95f59582cf915.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-ddc78d224707f51ceaa0789410902699e14883f6.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-1c05644cc0b502774149658b35256d265bb54db2.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-4c28bcd962e9cfd97d1c381e0ad14fed18d4de63.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-52d4ec7c84759c90886927dd95a91f8eca74a549.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-885df79d080163836b177c8c50469175720cba52.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-54c79bba7351b819949694c54e4db57c54fbc90b.jar
+C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-ac1eaca5b41aa539f4e581f8653aef686e7f5b22.jar
