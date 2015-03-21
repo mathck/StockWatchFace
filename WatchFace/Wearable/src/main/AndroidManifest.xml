@@ -36,17 +36,17 @@
 
         <service
                 android:name="com.mathck.android.wearable.stockmonitor.DigitalWatchFaceService"
-                android:label="@string/digital_name"
+                android:label="@string/app_name"
                 android:permission="android.permission.BIND_WALLPAPER" >
             <meta-data
                     android:name="android.service.wallpaper"
                     android:resource="@xml/watch_face" />
             <meta-data
                     android:name="com.google.android.wearable.watchface.preview"
-                    android:resource="@drawable/preview_digital" />
+                    android:resource="@drawable/preview" />
             <meta-data
                     android:name="com.google.android.wearable.watchface.preview_circular"
-                    android:resource="@drawable/preview_digital_circular" />
+                    android:resource="@drawable/preview_circular" />
             <meta-data
                     android:name="com.google.android.wearable.watchface.companionConfigurationAction"
                     android:value="com.example.android.wearable.watchface.CONFIG_DIGITAL" />
@@ -65,7 +65,7 @@
 
         <activity
                 android:name="com.mathck.android.wearable.stockmonitor.DigitalWatchFaceWearableConfigActivity"
-                android:label="@string/digital_config_name">
+                android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.example.android.wearable.watchface.CONFIG_DIGITAL" />
                 <category android:name="com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION" />

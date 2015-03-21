@@ -32,6 +32,10 @@
     <string name="color_navy">Navy</string>
     <string name="color_red">Red</string>
     <string name="color_white">White</string>
+    <string name="refresh_text">refresh stock data every X minutes</string>
+    <string name="assign_text">assign</string>
+    <string name="symbol_hint">stock symbol (ex : GOOG)</string>
+    <string name="sample_description">Stock Watch Face</string>
 
     <string-array name="color_array">
         <item>@string/color_black</item>
@@ -41,5 +45,16 @@
         <item>@string/color_navy</item>
         <item>@string/color_red</item>
         <item>@string/color_white</item>
+    </string-array>
+
+    <string-array name="refresh_array">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>180</item>
     </string-array>
 </resources>

@@ -16,7 +16,7 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+<!--
     <android.support.wearable.view.CircledImageView
         android:id="@+id/color"
         android:layout_width="52dp"
@@ -35,4 +35,5 @@
         android:layout_marginLeft="10dp"
         android:textColor="@color/color_item_label_color"
         android:textSize="18sp"/>
+        -->
 </merge>

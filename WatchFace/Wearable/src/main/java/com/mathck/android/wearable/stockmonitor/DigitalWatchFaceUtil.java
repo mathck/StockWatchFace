@@ -33,65 +33,19 @@ import com.google.android.gms.wearable.Wearable;
 public final class DigitalWatchFaceUtil {
     private static final String TAG = "DigitalWatchFaceUtil";
 
-    /**
-     * The {@link DataMap} key for {@link DigitalWatchFaceService} background color name.
-     * The color name must be a {@link String} recognized by {@link Color#parseColor}.
-     */
-    public static final String KEY_BACKGROUND_COLOR = "BACKGROUND_COLOR";
+    public static final String STOCK = "STOCK";
+    public static final String REFRESH_TIMER = "REFRESH_TIMER";
+    public static final String WEATHER = "WEATHER_TOGGLE";
+    public static final String DATE = "DATE_TOGGLE";
+    public static final String THEME_DARK = "THEME_TOGGLE";
 
-    /**
-     * The {@link DataMap} key for {@link DigitalWatchFaceService} hour digits color name.
-     * The color name must be a {@link String} recognized by {@link Color#parseColor}.
-     */
-    public static final String KEY_HOURS_COLOR = "HOURS_COLOR";
-
-    /**
-     * The {@link DataMap} key for {@link DigitalWatchFaceService} minute digits color name.
-     * The color name must be a {@link String} recognized by {@link Color#parseColor}.
-     */
-    public static final String KEY_MINUTES_COLOR = "MINUTES_COLOR";
-
-    /**
-     * The {@link DataMap} key for {@link DigitalWatchFaceService} second digits color name.
-     * The color name must be a {@link String} recognized by {@link Color#parseColor}.
-     */
-    public static final String KEY_SECONDS_COLOR = "SECONDS_COLOR";
-
-    /**
-     * The path for the {@link DataItem} containing {@link DigitalWatchFaceService} configuration.
-     */
     public static final String PATH_WITH_FEATURE = "/watch_face_config/Digital";
 
-    /**
-     * Name of the default interactive mode background color and the ambient mode background color.
-     */
-    public static final String COLOR_NAME_DEFAULT_AND_AMBIENT_BACKGROUND = "Black";
-    public static final int COLOR_VALUE_DEFAULT_AND_AMBIENT_BACKGROUND =
-            parseColor(COLOR_NAME_DEFAULT_AND_AMBIENT_BACKGROUND);
-
-    /**
-     * Name of the default interactive mode hour digits color and the ambient mode hour digits
-     * color.
-     */
-    public static final String COLOR_NAME_DEFAULT_AND_AMBIENT_HOUR_DIGITS = "White";
-    public static final int COLOR_VALUE_DEFAULT_AND_AMBIENT_HOUR_DIGITS =
-            parseColor(COLOR_NAME_DEFAULT_AND_AMBIENT_HOUR_DIGITS);
-
-    /**
-     * Name of the default interactive mode minute digits color and the ambient mode minute digits
-     * color.
-     */
-    public static final String COLOR_NAME_DEFAULT_AND_AMBIENT_MINUTE_DIGITS = "White";
-    public static final int COLOR_VALUE_DEFAULT_AND_AMBIENT_MINUTE_DIGITS =
-            parseColor(COLOR_NAME_DEFAULT_AND_AMBIENT_MINUTE_DIGITS);
-
-    /**
-     * Name of the default interactive mode second digits color and the ambient mode second digits
-     * color.
-     */
-    public static final String COLOR_NAME_DEFAULT_AND_AMBIENT_SECOND_DIGITS = "Gray";
-    public static final int COLOR_VALUE_DEFAULT_AND_AMBIENT_SECOND_DIGITS =
-            parseColor(COLOR_NAME_DEFAULT_AND_AMBIENT_SECOND_DIGITS);
+    public static final String STOCK_SYMBOL_DEFAULT = "Microsoft Corporation,42.28,USD,+1.41%";
+    public static final int REFRESH_TIMER_DEFAULT = 15;
+    public static final boolean WEATHER_DEFAULT = false;
+    public static final boolean DATE_DEFAULT = false;
+    public static final boolean THEME_DEFAULT = false;
 
     /**
      * Callback interface to perform an action with the current config {@link DataMap} for
@@ -103,10 +57,6 @@ public final class DigitalWatchFaceUtil {
          * {@link DigitalWatchFaceService}.
          */
         void onConfigDataMapFetched(DataMap config);
-    }
-
-    private static int parseColor(String colorName) {
-        return Color.parseColor(colorName.toLowerCase());
     }
 
     /**

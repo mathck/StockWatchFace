@@ -1,34 +1,28 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.mathck.android.wearable.stockmonitor;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.wearable.companion.WatchFaceCompanion;
+import android.text.InputFilter;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -38,6 +32,17 @@ import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Wearable;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * The phone-side config activity for {@code DigitalWatchFaceService}. Like the watch-side config
@@ -50,14 +55,22 @@ public class CompanionActivity extends Activity
     private static final String TAG = "DigitalWatchFaceConfig";
 
     // TODO: use the shared constants (needs covering all the samples with Gradle build model)
-    private static final String KEY_BACKGROUND_COLOR = "BACKGROUND_COLOR";
-    private static final String KEY_HOURS_COLOR = "HOURS_COLOR";
-    private static final String KEY_MINUTES_COLOR = "MINUTES_COLOR";
-    private static final String KEY_SECONDS_COLOR = "SECONDS_COLOR";
+    private static final String STOCK = "STOCK";
+    private static final String STOCK_SYMBOL = "STOCK_SYMBOL";
+    private static final String REFRESH_TIMER = "REFRESH_TIMER";
+    private static final String WEATHER = "WEATHER_TOGGLE";
+    private static final String DATE = "DATE_TOGGLE";
+    private static final String THEME_DARK = "THEME_TOGGLE";
     private static final String PATH_WITH_FEATURE = "/watch_face_config/Digital";
 
     private GoogleApiClient mGoogleApiClient;
     private String mPeerId;
+
+    SeekBar mRefreshTimer;
+    TextView mRefreshInfoText;
+
+    final Context context = this;
+    EditText mSymbol = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +84,39 @@ public class CompanionActivity extends Activity
                 .addApi(Wearable.API)
                 .build();
 
-        ComponentName name = getIntent().getParcelableExtra(
-                WatchFaceCompanion.EXTRA_WATCH_FACE_COMPONENT);
-        TextView label = (TextView)findViewById(R.id.label);
-        label.setText(label.getText() + " (" + name.getClassName() + ")");
+        //ComponentName name = getIntent().getParcelableExtra(
+         //       WatchFaceCompanion.EXTRA_WATCH_FACE_COMPONENT);
+        //TextView label = (TextView)findViewById(R.id.label);
+        //label.setText(label.getText() + " (" + name.getClassName() + ")");
+
+        Spannable text = new SpannableString("Stock Watch");
+        text.setSpan(new ForegroundColorSpan(Color.WHITE), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        getActionBar().setTitle(text);
+
+        mRefreshInfoText = (TextView) findViewById(R.id.refreshInfoText);
+
+
+        mRefreshTimer = (SeekBar) findViewById(R.id.refreshbar);
+        mRefreshTimer.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mRefreshInfoText.setText("refresh stock data every " + (mRefreshTimer.getProgress() * 5 + 5) + " minutes");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        mRefreshInfoText.setText("refresh stock data every " + (mRefreshTimer.getProgress() * 5 + 5) + " minutes");
+        mSymbol = (EditText) findViewById(R.id.symbol);
+        mSymbol.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
     }
 
     @Override
@@ -155,63 +197,201 @@ public class CompanionActivity extends Activity
      *         default items are selected.
      */
     private void setUpAllPickers(DataMap config) {
-        setUpColorPickerSelection(R.id.background, KEY_BACKGROUND_COLOR, config,
-                R.string.color_black);
-        setUpColorPickerSelection(R.id.hours, KEY_HOURS_COLOR, config, R.string.color_white);
-        setUpColorPickerSelection(R.id.minutes, KEY_MINUTES_COLOR, config, R.string.color_white);
-        setUpColorPickerSelection(R.id.seconds, KEY_SECONDS_COLOR, config, R.string.color_gray);
+        setUpToggleSelection(R.id.toggleweather, WEATHER, config, false);
+        setUpToggleSelection(R.id.toggledate, DATE, config, false);
+        setUpToggleSelection(R.id.togglestyle, THEME_DARK, config, false);
 
-        setUpColorPickerListener(R.id.background, KEY_BACKGROUND_COLOR);
-        setUpColorPickerListener(R.id.hours, KEY_HOURS_COLOR);
-        setUpColorPickerListener(R.id.minutes, KEY_MINUTES_COLOR);
-        setUpColorPickerListener(R.id.seconds, KEY_SECONDS_COLOR);
+        setUpStringSelection(R.id.symbol, STOCK_SYMBOL, config, "GOOG");
+        setUpIntSelection(R.id.refreshbar, REFRESH_TIMER, config, 15);
+
+        setUpButtonListener(R.id.assignSymbol, STOCK);
+
+        setUpToggleListener(R.id.toggledate, DATE);
+        setUpToggleListener(R.id.togglestyle, THEME_DARK);
+        setUpToggleListener(R.id.toggleweather, WEATHER);
     }
 
-    private void setUpColorPickerSelection(int spinnerId, final String configKey, DataMap config,
-            int defaultColorNameResId) {
-        String defaultColorName = getString(defaultColorNameResId);
-        int defaultColor = Color.parseColor(defaultColorName);
-        int color;
+    private void setUpIntSelection(int intId, final String configKey, DataMap config, int defaultValue) {
+        int selection = defaultValue;
+
         if (config != null) {
-            color = config.getInt(configKey, defaultColor);
-        } else {
-            color = defaultColor;
+            selection = config.getInt(configKey, defaultValue);
         }
-        Spinner spinner = (Spinner) findViewById(spinnerId);
-        String[] colorNames = getResources().getStringArray(R.array.color_array);
-        for (int i = 0; i < colorNames.length; i++) {
-            if (Color.parseColor(colorNames[i]) == color) {
-                spinner.setSelection(i);
-                break;
-            }
-        }
+
+        SeekBar view = (SeekBar) findViewById(intId);
+        view.setProgress(selection);
     }
 
-    private void setUpColorPickerListener(int spinnerId, final String configKey) {
-        Spinner spinner = (Spinner) findViewById(spinnerId);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-                final String colorName = (String) adapterView.getItemAtPosition(pos);
-                sendConfigUpdateMessage(configKey, Color.parseColor(colorName));
-            }
+    private void setUpStringSelection(int textId, final String configKey, DataMap config, String defaultValue) {
+        String selection = defaultValue;
 
+        if (config != null) {
+            selection = config.getString(configKey, defaultValue);
+        }
+
+        EditText text = (EditText) findViewById(textId);
+        text.setText(selection);
+    }
+
+    private void setUpToggleSelection(int btnId, final String configKey, DataMap config, boolean defaultValue) {
+        boolean selection = defaultValue;
+
+        if (config != null) {
+            selection = config.getBoolean(configKey, defaultValue);
+        }
+
+        ToggleButton btn = (ToggleButton) findViewById(btnId);
+        btn.setChecked(selection);
+    }
+
+    private void setUpButtonListener(int btnId, final String configKey) {
+        Button btn = (Button) findViewById(btnId);
+        btn.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) { }
+            public void onClick(View v) {
+                onAssign(v);
+            }
         });
     }
 
-    private void sendConfigUpdateMessage(String configKey, int color) {
+    private void setUpToggleListener(int btnId, final String configKey) {
+        ToggleButton btn = (ToggleButton) findViewById(btnId);
+        btn.setOnClickListener(new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToggleButton view = (ToggleButton) v;
+                sendConfigUpdateMessage(configKey, view.isChecked());
+            }
+        });
+    }
+
+    private void sendConfigUpdateMessage(String configKey, boolean value) {
         if (mPeerId != null) {
             DataMap config = new DataMap();
-            config.putInt(configKey, color);
+            config.putBoolean(configKey, value);
             byte[] rawData = config.toByteArray();
             Wearable.MessageApi.sendMessage(mGoogleApiClient, mPeerId, PATH_WITH_FEATURE, rawData);
 
             if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Sent watch face config message: " + configKey + " -> "
-                        + Integer.toHexString(color));
+                Log.d(TAG, "Sent watch face config message: " + configKey + " -> " + value);
             }
+        }
+    }
+
+    private void sendStockUpdateMessage(String configKey, String text) {
+        if (mPeerId != null) {
+            DataMap config = new DataMap();
+            config.putString(configKey, text);
+            config.putString(STOCK_SYMBOL, mSymbol.getText().toString());
+            byte[] rawData = config.toByteArray();
+            Wearable.MessageApi.sendMessage(mGoogleApiClient, mPeerId, PATH_WITH_FEATURE, rawData);
+
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Sent watch face config message: " + configKey + " -> " + text);
+            }
+        }
+    }
+
+    private void sendConfigUpdateMessage(String configKey, float value) {
+        if (mPeerId != null) {
+            DataMap config = new DataMap();
+            config.putFloat(configKey, value);
+            byte[] rawData = config.toByteArray();
+            Wearable.MessageApi.sendMessage(mGoogleApiClient, mPeerId, PATH_WITH_FEATURE, rawData);
+
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Sent watch face config message: " + configKey + " -> " + value);
+            }
+        }
+    }
+
+    public void onToggleWeather(View view) {
+    }
+
+    public void onToggleDate(View view) {
+    }
+
+    public void onAssign(View view) {
+
+        String symbol = mSymbol.getText().toString();
+
+        if(symbol.isEmpty()) {
+            Toast.makeText(this, "enter stock symbol", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mSymbol.getWindowToken(), 0);
+
+        try {
+            new RetrieveStockData().execute(symbol);
+        }
+        catch (Exception e) {
+            Toast.makeText(this, e.getStackTrace().toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void onToggleStyle(View view) {
+    }
+
+    class RetrieveStockData extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String... symbol) {
+
+            // http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI,GOOG&f=npc4p2&e=.csv
+
+            String result = "";
+
+            HttpResponse response;
+            BufferedReader reader;
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpContext localContext = new BasicHttpContext();
+            HttpGet httpGet = new HttpGet("http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI," + symbol[0] +"&f=npc4p2&e=.csv");
+            try {
+                response = httpClient.execute(httpGet, localContext);
+                InputStreamReader is = new InputStreamReader(response.getEntity().getContent());
+                reader = new BufferedReader(is);
+
+                try {
+                    String line;
+                    reader.readLine();
+                    while ((line = reader.readLine()) != null) {
+                        result = line;
+                    }
+
+                }
+                catch (IOException ex) {
+                    throw new IOException();
+                }
+                finally {
+                    try {
+                        is.close();
+                    }
+                    catch (IOException e) {
+                        throw new IOException();
+                    }
+                }
+
+            } catch (IOException e) {
+                Toast.makeText(context, e.getStackTrace().toString(), Toast.LENGTH_LONG).show();
+            }
+
+            return result;
+        }
+
+        protected void onPostExecute(String feed) {
+            // assign name
+            sendStockUpdateMessage(STOCK, feed);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage(feed.split(",")[0].replace("\"", "") + " was successfully assigned.")
+                    .setTitle("Stock assigned")
+                    .setIcon(R.drawable.ic_launcher)
+                    .setPositiveButton("Ok", null);
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     }
 }

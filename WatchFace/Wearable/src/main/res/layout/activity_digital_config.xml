@@ -17,8 +17,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/config_activity_background">
+    android:layout_height="match_parent">
+    <!--android:background="@color/config_activity_background">
     <TextView
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -35,5 +35,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
-        app:layout_box="left|right"/>
+        app:layout_box="left|right"/>-->
 </android.support.wearable.view.BoxInsetLayout>
