@@ -284,7 +284,7 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
                     stockCard.mStock.setStock(
                             text.split(",")[0].replace("\"", ""),
                             Float.parseFloat(text.split(",")[1].replace("\"", "")),
-                            text.split(",")[2].replace("\"", "").replace("USD", "$"),
+                            text.split(",")[2].replace("\"", "").replace("USD", "$").replace("EUR", "€"),
                             Float.parseFloat(text.split(",")[3].replace("\"", "").replace("+", "").replace("%", "")));
                     invalidate();
                 }
