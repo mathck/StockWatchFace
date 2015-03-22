@@ -6,4 +6,10 @@
     <color name="bg_bright">#FBF8DC</color>
     <color name="bg_darkgreen">#002A17</color>
     <color name="bg_darkred">#2A0017</color>
+    <color name="offline">#292929</color>
+    <color name="storm">#1e3f42</color>
+    <color name="snow">#30B191</color>
+    <color name="sun">#FCBF00</color>
+    <color name="rain">#4EBECB</color>
+    <color name="clouds">#FCBF00</color>
 </resources>
