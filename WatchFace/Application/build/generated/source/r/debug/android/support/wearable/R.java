@@ -54,7 +54,7 @@ public final class R {
 		public static final int red = 0x7f060020;
 		public static final int secondary_text_light = 0x7f060022;
 		public static final int semitransparent_grey = 0x7f060023;
-		public static final int white = 0x7f060024;
+		public static final int white = 0x7f060025;
 	}
 	public static final class dimen {
 		public static final int card_content_padding_rect_top = 0x7f070000;

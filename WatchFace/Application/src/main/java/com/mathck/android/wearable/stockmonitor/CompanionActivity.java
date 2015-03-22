@@ -15,14 +15,20 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.widget.ViewSwitcher;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -97,26 +103,31 @@ public class CompanionActivity extends Activity
 
 
         mRefreshTimer = (SeekBar) findViewById(R.id.refreshbar);
-        mRefreshTimer.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mRefreshInfoText.setText("refresh stock data every " + (mRefreshTimer.getProgress() * 5 + 5) + " minutes");
-            }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        mRefreshInfoText.setText("refresh stock data every " + (mRefreshTimer.getProgress() * 5 + 5) + " minutes");
         mSymbol = (EditText) findViewById(R.id.symbol);
         mSymbol.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        imageSwitcher = (ImageSwitcher)findViewById(R.id.watchSample);
+
+        imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+
+            @Override
+            public View makeView() {
+                ImageView myView = new ImageView(getApplicationContext());
+                myView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                myView.setLayoutParams(new ImageSwitcher.LayoutParams(AbsListView.LayoutParams.
+                        MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT));
+                return myView;
+            }
+
+        });
+
+        Animation in = AnimationUtils.loadAnimation(this,
+                android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(this,
+                android.R.anim.slide_out_right);
+        imageSwitcher.setInAnimation(in);
+        imageSwitcher.setOutAnimation(out);
     }
 
     @Override
@@ -198,28 +209,29 @@ public class CompanionActivity extends Activity
      */
     private void setUpAllPickers(DataMap config) {
         setUpToggleSelection(R.id.toggleweather, WEATHER, config, false);
-        setUpToggleSelection(R.id.toggledate, DATE, config, false);
         setUpToggleSelection(R.id.togglestyle, THEME_DARK, config, false);
 
         setUpStringSelection(R.id.symbol, STOCK_SYMBOL, config, "GOOG");
-        setUpIntSelection(R.id.refreshbar, REFRESH_TIMER, config, 15);
+        setUpIntSelection(REFRESH_TIMER, config, 2);
 
         setUpButtonListener(R.id.assignSymbol, STOCK);
+        setUpProgressListener();
 
-        setUpToggleListener(R.id.toggledate, DATE);
         setUpToggleListener(R.id.togglestyle, THEME_DARK);
         setUpToggleListener(R.id.toggleweather, WEATHER);
+
+        updateSampleImage();
     }
 
-    private void setUpIntSelection(int intId, final String configKey, DataMap config, int defaultValue) {
+    private void setUpIntSelection(final String configKey, DataMap config, int defaultValue) {
         int selection = defaultValue;
 
         if (config != null) {
             selection = config.getInt(configKey, defaultValue);
         }
 
-        SeekBar view = (SeekBar) findViewById(intId);
-        view.setProgress(selection);
+        mRefreshTimer.setProgress(selection);
+        mRefreshInfoText.setText("refresh stock data every " + (mRefreshTimer.getProgress() * 5 + 5) + " minutes");
     }
 
     private void setUpStringSelection(int textId, final String configKey, DataMap config, String defaultValue) {
@@ -254,15 +266,49 @@ public class CompanionActivity extends Activity
         });
     }
 
+    private void setUpProgressListener() {
+        mRefreshTimer.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mRefreshInfoText.setText("refresh stock data every " + (mRefreshTimer.getProgress() * 5 + 5) + " minutes");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                sendTimerUpdateMessage(mRefreshTimer.getProgress());
+                mRefreshInfoText.setText("refresh stock data every " + (mRefreshTimer.getProgress() * 5 + 5) + " minutes");
+            }
+        });
+    }
+
     private void setUpToggleListener(int btnId, final String configKey) {
         ToggleButton btn = (ToggleButton) findViewById(btnId);
         btn.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ToggleButton view = (ToggleButton) v;
+                updateSampleImage();
                 sendConfigUpdateMessage(configKey, view.isChecked());
             }
         });
+    }
+
+    private void sendTimerUpdateMessage(int value) {
+        if (mPeerId != null) {
+            DataMap config = new DataMap();
+            config.putInt(REFRESH_TIMER, value);
+            byte[] rawData = config.toByteArray();
+            Wearable.MessageApi.sendMessage(mGoogleApiClient, mPeerId, PATH_WITH_FEATURE, rawData);
+
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Sent watch face config message: " + REFRESH_TIMER + " -> " + value);
+            }
+        }
     }
 
     private void sendConfigUpdateMessage(String configKey, boolean value) {
@@ -305,10 +351,20 @@ public class CompanionActivity extends Activity
         }
     }
 
-    public void onToggleWeather(View view) {
-    }
+    private ImageSwitcher imageSwitcher;
 
-    public void onToggleDate(View view) {
+    private void updateSampleImage() {
+        ToggleButton weather = (ToggleButton) findViewById(R.id.toggleweather);
+        ToggleButton theme = (ToggleButton) findViewById(R.id.togglestyle);
+
+        if(weather.isChecked() && theme.isChecked())
+            imageSwitcher.setImageResource(R.drawable.void_light_weather);
+        else if(!weather.isChecked() && theme.isChecked())
+            imageSwitcher.setImageResource(R.drawable.void_light);
+        else if(weather.isChecked() && !theme.isChecked())
+            imageSwitcher.setImageResource(R.drawable.void_weather);
+        else if(!weather.isChecked() && !theme.isChecked())
+            imageSwitcher.setImageResource(R.drawable.void_sample);
     }
 
     public void onAssign(View view) {
@@ -329,9 +385,6 @@ public class CompanionActivity extends Activity
         catch (Exception e) {
             Toast.makeText(this, e.getStackTrace().toString(), Toast.LENGTH_LONG).show();
         }
-    }
-
-    public void onToggleStyle(View view) {
     }
 
     class RetrieveStockData extends AsyncTask<String, Void, String> {

@@ -300,8 +300,8 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f06000b;
         public static final int common_signin_btn_light_text_focused=0x7f06000c;
         public static final int common_signin_btn_light_text_pressed=0x7f06000d;
-        public static final int common_signin_btn_text_dark=0x7f060025;
-        public static final int common_signin_btn_text_light=0x7f060026;
+        public static final int common_signin_btn_text_dark=0x7f060026;
+        public static final int common_signin_btn_text_light=0x7f060027;
         public static final int dark_blue=0x7f06000e;
         public static final int dark_grey=0x7f06000f;
         public static final int disabled_text_light=0x7f060010;
@@ -324,7 +324,8 @@ containing a value of this type.
         public static final int secondary_text=0x7f060021;
         public static final int secondary_text_light=0x7f060022;
         public static final int semitransparent_grey=0x7f060023;
-        public static final int white=0x7f060024;
+        public static final int watch_bg=0x7f060024;
+        public static final int white=0x7f060025;
     }
     public static final class dimen {
         public static final int card_content_padding_rect_top=0x7f070000;
@@ -461,6 +462,10 @@ containing a value of this type.
         public static final int storm=0x7f020077;
         public static final int sun=0x7f020078;
         public static final int tile=0x7f020079;
+        public static final int void_light=0x7f02007a;
+        public static final int void_light_weather=0x7f02007b;
+        public static final int void_sample=0x7f02007c;
+        public static final int void_weather=0x7f02007d;
     }
     public static final class id {
         public static final int action_error=0x7f0b0012;
@@ -469,7 +474,7 @@ containing a value of this type.
         public static final int adjust_width=0x7f0b0006;
         public static final int all=0x7f0b0000;
         public static final int animation=0x7f0b0015;
-        public static final int assignSymbol=0x7f0b000c;
+        public static final int assignSymbol=0x7f0b000d;
         public static final int bottom=0x7f0b0001;
         public static final int center=0x7f0b0008;
         public static final int center_horizontal=0x7f0b0009;
@@ -480,16 +485,16 @@ containing a value of this type.
         public static final int left=0x7f0b0002;
         public static final int message=0x7f0b0016;
         public static final int none=0x7f0b0007;
-        public static final int refreshInfoText=0x7f0b000d;
-        public static final int refreshbar=0x7f0b000e;
+        public static final int refreshInfoText=0x7f0b000e;
+        public static final int refreshbar=0x7f0b000f;
         public static final int right=0x7f0b0003;
-        public static final int symbol=0x7f0b000b;
+        public static final int symbol=0x7f0b000c;
         public static final int text=0x7f0b001a;
         public static final int title=0x7f0b0019;
-        public static final int toggledate=0x7f0b0010;
         public static final int togglestyle=0x7f0b0011;
-        public static final int toggleweather=0x7f0b000f;
+        public static final int toggleweather=0x7f0b0010;
         public static final int top=0x7f0b0004;
+        public static final int watchSample=0x7f0b000b;
     }
     public static final class integer {
         public static final int google_play_services_version=0x7f080000;

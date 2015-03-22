@@ -8,13 +8,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageSwitcher
+            android:id="@+id/watchSample"
+            android:layout_width="fill_parent"
+            android:layout_height="240dp"
             android:elevation="5dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:layout_marginBottom="6dp"
-            android:src="@drawable/sample"
+            android:src="@drawable/void_light_weather"
+            android:background="@color/watch_bg"
             android:contentDescription="@string/sample_description" />
 
         <LinearLayout
@@ -59,7 +61,6 @@
                 android:layout_width="fill_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
-                android:progress="2"
                 android:max="23"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -72,6 +73,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:weightSum="2"
             android:orientation="horizontal">
             <ToggleButton
                 android:id="@+id/toggleweather"
@@ -81,9 +83,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textOn="weather ON"
-                android:textOff="weather OFF"
-                android:onClick="onToggleWeather"/>
+                android:textOff="weather OFF"/>
 
+            <ToggleButton
+                android:id="@+id/togglestyle"
+                android:layout_margin="8dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="LIGHT THEME"
+                android:textOff="DARK THEME"/>
+<!--
             <ToggleButton
                 android:id="@+id/toggledate"
                 android:layout_margin="8dp"
@@ -94,17 +105,8 @@
                 android:textOn="date ON"
                 android:textOff="date OFF"
                 android:onClick="onToggleDate"/>
+-->
 
-            <ToggleButton
-                android:id="@+id/togglestyle"
-                android:layout_margin="8dp"
-                android:layout_marginTop="0dp"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textOn="LIGHT"
-                android:textOff="DARK"
-                android:onClick="onToggleStyle"/>
 
         </LinearLayout>
     </LinearLayout>
