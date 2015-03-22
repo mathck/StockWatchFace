@@ -31,16 +31,13 @@ import org.apache.http.protocol.HttpContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
 
 // taken from http://stackoverflow.com/questions/4459058/alarm-manager-example
 public class Alarm extends BroadcastReceiver
 {
     String mSymbol = "";
     String mPeerId = "";
+    int mRefreshTimer = 15;
     private GoogleApiClient mGoogleApiClient;
 
     private Context mContext;
@@ -54,6 +51,7 @@ public class Alarm extends BroadcastReceiver
 
         mPeerId = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).getString("PEER_ID", "");
         mSymbol = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).getString(CompanionActivity.STOCK_SYMBOL, "GOOG");
+
         mContext = context;
 
         mGoogleApiClient = new GoogleApiClient.Builder(context)
@@ -75,10 +73,12 @@ public class Alarm extends BroadcastReceiver
 
     public void SetAlarm(Context context)
     {
+        mRefreshTimer = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).getInt(CompanionActivity.REFRESH_TIMER, 15);
+
         AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, Alarm.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 * 5, pi); // Millisec * Second * Minute
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 * mRefreshTimer, pi); // Millisec * Second * Minute
     }
 
     public void CancelAlarm(Context context)
@@ -137,7 +137,7 @@ public class Alarm extends BroadcastReceiver
                     }
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
 
             }
 

@@ -73,7 +73,7 @@ public class CompanionActivity extends Activity
     // TODO: use the shared constants (needs covering all the samples with Gradle build model)
     public static final String STOCK = "STOCK";
     public static final String STOCK_SYMBOL = "STOCK_SYMBOL";
-    private static final String REFRESH_TIMER = "REFRESH_TIMER";
+    public static final String REFRESH_TIMER = "REFRESH_TIMER";
     private static final String WEATHER = "WEATHER_TOGGLE";
     private static final String THEME_DARK = "THEME_TOGGLE";
     public static final String PATH_WITH_FEATURE = "/watch_face_config/Digital";
@@ -296,6 +296,9 @@ public class CompanionActivity extends Activity
             public void onStopTrackingTouch(SeekBar seekBar) {
                 sendTimerUpdateMessage(mRefreshTimer.getProgress());
                 mRefreshInfoText.setText("refresh stock data every " + (mRefreshTimer.getProgress() * 5 + 5) + " minutes");
+                context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).edit().putInt(REFRESH_TIMER, (mRefreshTimer.getProgress() * 5 + 5)).apply();
+                Intent intent = new Intent(context, GetStockDataService.class);
+                context.startService(intent);
             }
         });
     }
@@ -305,9 +308,9 @@ public class CompanionActivity extends Activity
         btn.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToggleButton view = (ToggleButton) v;
-                updateSampleImage();
-                sendConfigUpdateMessage(configKey, view.isChecked());
+            ToggleButton view = (ToggleButton) v;
+            updateSampleImage();
+            sendConfigUpdateMessage(configKey, view.isChecked());
             }
         });
     }
