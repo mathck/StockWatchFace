@@ -42,6 +42,7 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
 
     Clock clock;
     StockCard stockCard;
+    boolean isDarkTheme;
 
     /**
      * Update rate in milliseconds for normal (not ambient and not mute) mode. We update twice
@@ -238,7 +239,7 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
 
             if (mLowBitAmbient) {
                 boolean antiAlias = !inAmbientMode;
-                // mHourPaint.setAntiAlias(antiAlias);
+                // mHourPaintDark.setAntiAlias(antiAlias);
             }
             invalidate();
 
@@ -259,7 +260,7 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
             if (mMute != inMuteMode) {
                 mMute = inMuteMode;
                 int alpha = inMuteMode ? MUTE_ALPHA : NORMAL_ALPHA;
-                //mHourPaint.setAlpha(alpha);
+                //mHourPaintDark.setAlpha(alpha);
                 invalidate();
             }
         }
@@ -276,19 +277,36 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
             }
         }
 
-        private void setStock(String text) {
-            if (text != null) {
+        private void setStock(String stockData) {
+            if (stockData != null) {
 
                 // Microsoft Corporation,42.28,USD,+1.41%
                 try {
+
+                    String[] data = stockData.split(",");
+                    int dataLength = data.length-1;
+
+                    float stockPerformance = Float.parseFloat(data[dataLength--].replace("\"", "").replace("+", "").replace("%", ""));
+                    String stockCurrency = data[dataLength--].replace("\"", "").replace("USD", "$").replace("EUR", "€");
+                    float stockPrice = Float.parseFloat(data[dataLength].replace("\"", ""));
+
+                    String stockName = "";
+                    int cursor = 0;
+                    while (cursor != dataLength) {
+                        stockName += data[cursor++];
+                    }
+
                     stockCard.mStock.setStock(
-                            text.split(",")[0].replace("\"", ""),
-                            Float.parseFloat(text.split(",")[1].replace("\"", "")),
-                            text.split(",")[2].replace("\"", "").replace("USD", "$").replace("EUR", "€"),
-                            Float.parseFloat(text.split(",")[3].replace("\"", "").replace("+", "").replace("%", "")));
+                            stockName.replace("\"", ""),
+                            stockPrice,
+                            stockCurrency,
+                            stockPerformance);
+
                     invalidate();
                 }
-                catch (Exception e) { }
+                catch (Exception e) {
+
+                }
             }
         }
 
@@ -305,9 +323,8 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
         }
 
         private void updateTheme(boolean value) {
-            if (!isInAmbientMode()) {
-
-            }
+            isDarkTheme = !value;
+            invalidate();
         }
 
         private void updateDate(boolean value) {
@@ -319,11 +336,8 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             clock.refresh();
-            canvas.drawColor(stockCard.mStock.isPositive() ?
-                    getResources().getColor(R.color.bg_darkgreen) :
-                    getResources().getColor(R.color.bg_darkred));
-
-            clock.draw(canvas);
+            stockCard.drawBackground(canvas, isDarkTheme);
+            clock.draw(canvas, isDarkTheme);
             stockCard.draw(canvas);
         }
 
@@ -473,8 +487,6 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
         private boolean updateUiForKey(String configKey, boolean value) {
             if (configKey.equals(DigitalWatchFaceUtil.WEATHER)) {
                 updateWeather(value);
-            } else if(configKey.equals(DigitalWatchFaceUtil.DATE)) {
-                updateDate(value);
             } else if(configKey.equals(DigitalWatchFaceUtil.THEME_DARK)) {
                 updateTheme(value);
             } else {

@@ -2,12 +2,19 @@ package com.mathck.android.wearable.stockmonitor;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.wearable.companion.WatchFaceCompanion;
 import android.text.InputFilter;
 import android.text.Spannable;
@@ -49,6 +56,9 @@ import org.apache.http.protocol.HttpContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * The phone-side config activity for {@code DigitalWatchFaceService}. Like the watch-side config
@@ -61,13 +71,12 @@ public class CompanionActivity extends Activity
     private static final String TAG = "DigitalWatchFaceConfig";
 
     // TODO: use the shared constants (needs covering all the samples with Gradle build model)
-    private static final String STOCK = "STOCK";
-    private static final String STOCK_SYMBOL = "STOCK_SYMBOL";
+    public static final String STOCK = "STOCK";
+    public static final String STOCK_SYMBOL = "STOCK_SYMBOL";
     private static final String REFRESH_TIMER = "REFRESH_TIMER";
     private static final String WEATHER = "WEATHER_TOGGLE";
-    private static final String DATE = "DATE_TOGGLE";
     private static final String THEME_DARK = "THEME_TOGGLE";
-    private static final String PATH_WITH_FEATURE = "/watch_face_config/Digital";
+    public static final String PATH_WITH_FEATURE = "/watch_face_config/Digital";
 
     private GoogleApiClient mGoogleApiClient;
     private String mPeerId;
@@ -84,6 +93,7 @@ public class CompanionActivity extends Activity
         setContentView(R.layout.activity_digital_watch_face_config);
 
         mPeerId = getIntent().getStringExtra(WatchFaceCompanion.EXTRA_PEER_ID);
+        context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).edit().putString("PEER_ID", mPeerId).apply();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -100,7 +110,6 @@ public class CompanionActivity extends Activity
         getActionBar().setTitle(text);
 
         mRefreshInfoText = (TextView) findViewById(R.id.refreshInfoText);
-
 
         mRefreshTimer = (SeekBar) findViewById(R.id.refreshbar);
 
@@ -123,9 +132,9 @@ public class CompanionActivity extends Activity
         });
 
         Animation in = AnimationUtils.loadAnimation(this,
-                android.R.anim.slide_in_left);
+                android.R.anim.fade_in);
         Animation out = AnimationUtils.loadAnimation(this,
-                android.R.anim.slide_out_right);
+                android.R.anim.fade_out);
         imageSwitcher.setInAnimation(in);
         imageSwitcher.setOutAnimation(out);
     }
@@ -221,6 +230,9 @@ public class CompanionActivity extends Activity
         setUpToggleListener(R.id.toggleweather, WEATHER);
 
         updateSampleImage();
+
+        Intent intent = new Intent(context, GetStockDataService.class);
+        context.startService(intent);
     }
 
     private void setUpIntSelection(final String configKey, DataMap config, int defaultValue) {
@@ -243,6 +255,8 @@ public class CompanionActivity extends Activity
 
         EditText text = (EditText) findViewById(textId);
         text.setText(selection);
+
+        context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).edit().putString(STOCK_SYMBOL, selection).apply();
     }
 
     private void setUpToggleSelection(int btnId, final String configKey, DataMap config, boolean defaultValue) {
@@ -370,6 +384,7 @@ public class CompanionActivity extends Activity
     public void onAssign(View view) {
 
         String symbol = mSymbol.getText().toString();
+        context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).edit().putString(STOCK_SYMBOL, symbol).apply();
 
         if(symbol.isEmpty()) {
             Toast.makeText(this, "enter stock symbol", Toast.LENGTH_LONG).show();
@@ -387,7 +402,7 @@ public class CompanionActivity extends Activity
         }
     }
 
-    class RetrieveStockData extends AsyncTask<String, Void, String> {
+    public class RetrieveStockData extends AsyncTask<String, Void, String> {
 
         protected String doInBackground(String... symbol) {
 

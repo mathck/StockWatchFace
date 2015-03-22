@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.mathck.android.wearable.stockmonitor" >
+        package="com.mathck.android.wearable.stockmonitor"
+        android:installLocation="internalOnly">
 
     <uses-sdk android:minSdkVersion="18"
               android:targetSdkVersion="21" />
 
     <!-- Permissions required by the wearable app -->
     <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -33,7 +35,20 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name="Alarm" />
 
+        <service
+            android:name=".GetStockDataService"
+            android:icon="@drawable/ic_launcher"
+            android:label="Get Stock Data for Watch"
+            >
+        </service>
+
+        <receiver android:name=".AutoStart">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
 
         <meta-data
                 android:name="com.google.android.gms.version"
