@@ -31,6 +31,8 @@ import org.apache.http.protocol.HttpContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 // taken from http://stackoverflow.com/questions/4459058/alarm-manager-example
 public class Alarm extends BroadcastReceiver
@@ -102,7 +104,7 @@ public class Alarm extends BroadcastReceiver
 
         protected String doInBackground(String... symbol) {
 
-            // http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI,GOOG&f=npc4p2&e=.csv
+            // http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI,GOOG&f=nl1c4p2&e=.csv
 
             String result = "";
 
@@ -111,7 +113,16 @@ public class Alarm extends BroadcastReceiver
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
-            HttpGet httpGet = new HttpGet("http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI," + symbol[0] +"&f=npc4p2&e=.csv");
+
+            String symbolUrl = "";
+
+            try {
+                symbolUrl = URLEncoder.encode(symbol[0], "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                symbolUrl = symbol[0];
+            }
+
+            HttpGet httpGet = new HttpGet("http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI," + symbolUrl + "&f=nl1c4p2&e=.csv");
             try {
                 response = httpClient.execute(httpGet, localContext);
                 InputStreamReader is = new InputStreamReader(response.getEntity().getContent());

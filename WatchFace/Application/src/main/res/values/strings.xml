@@ -36,6 +36,7 @@
     <string name="assign_text">assign</string>
     <string name="symbol_hint">stock symbol (ex : GOOG)</string>
     <string name="sample_description">Stock Watch Face</string>
+    <string name="aboutitem">About</string>
 
     <string-array name="color_array">
         <item>@string/color_black</item>

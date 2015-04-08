@@ -68,9 +68,13 @@ public class StockCard {
 
         canvas.drawBitmap(mStock.isPositive() ? mStockUp : mStockDown, mTrendIconPositionX, mTrendIconPositionY, null);
 
-        canvas.drawText(mStock.getStockPrice() + " " + mStock.getStockCurrency(), mStockPricePositionX, mStockPricePositionY, mStockPricePaint);
-        canvas.drawText(Math.abs(mStock.getStockPerformance()) + "%", mStockPerformancePositionX, mStockPerformancePositionY, mStockPerformancePaint);
+        canvas.drawText(twoDecimal(mStock.getStockPrice()) + " " + mStock.getStockCurrency(), mStockPricePositionX, mStockPricePositionY, mStockPricePaint);
+        canvas.drawText(twoDecimal(Math.abs(mStock.getStockPerformance())) + "%", mStockPerformancePositionX, mStockPerformancePositionY, mStockPerformancePaint);
         canvas.drawText(getShortName(mStock.getStockName()), mStockNamePositionX, mStockNamePositionY, mStockNamePaint);
+    }
+
+    private String twoDecimal(float value) {
+        return String.format("%.02f", value);
     }
 
     private String getShortName(String name) {

@@ -19,8 +19,13 @@ import android.support.wearable.companion.WatchFaceCompanion;
 import android.text.InputFilter;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.text.util.Linkify;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -150,6 +155,11 @@ public class CompanionActivity extends Activity
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
+
+        if (aboutDialog != null) {
+            aboutDialog.dismiss();
+        }
+
         super.onStop();
     }
 
@@ -217,7 +227,7 @@ public class CompanionActivity extends Activity
      *         default items are selected.
      */
     private void setUpAllPickers(DataMap config) {
-        setUpToggleSelection(R.id.toggleweather, WEATHER, config, false);
+        //setUpToggleSelection(R.id.toggleweather, WEATHER, config, false);
         setUpToggleSelection(R.id.togglestyle, THEME_DARK, config, false);
 
         setUpStringSelection(R.id.symbol, STOCK_SYMBOL, config, "GOOG");
@@ -227,7 +237,7 @@ public class CompanionActivity extends Activity
         setUpProgressListener();
 
         setUpToggleListener(R.id.togglestyle, THEME_DARK);
-        setUpToggleListener(R.id.toggleweather, WEATHER);
+        //setUpToggleListener(R.id.toggleweather, WEATHER);
 
         updateSampleImage();
 
@@ -355,6 +365,45 @@ public class CompanionActivity extends Activity
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                showAboutDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private AlertDialog aboutDialog;
+
+    private void showAboutDialog() {
+        // Linkify the message
+        final SpannableString s = new SpannableString("Feel free to fill out my Google Forms http://goo.gl/forms/7p3XKYL3je to request new features.");
+        Linkify.addLinks(s, Linkify.ALL);
+
+        aboutDialog = new AlertDialog.Builder(context)
+                .setPositiveButton(android.R.string.ok, null)
+                .setTitle("Finance Stock Watch")
+                .setIcon(R.drawable.ic_launcher)
+                .setMessage( s )
+                .create();
+
+        aboutDialog.show();
+
+        // Make the textview clickable. Must be called after show()
+        ((TextView)aboutDialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
     private void sendConfigUpdateMessage(String configKey, float value) {
         if (mPeerId != null) {
             DataMap config = new DataMap();
@@ -371,9 +420,10 @@ public class CompanionActivity extends Activity
     private ImageSwitcher imageSwitcher;
 
     private void updateSampleImage() {
-        ToggleButton weather = (ToggleButton) findViewById(R.id.toggleweather);
+        //ToggleButton weather = (ToggleButton) findViewById(R.id.toggleweather);
         ToggleButton theme = (ToggleButton) findViewById(R.id.togglestyle);
 
+        /*
         if(weather.isChecked() && theme.isChecked())
             imageSwitcher.setImageResource(R.drawable.void_light_weather);
         else if(!weather.isChecked() && theme.isChecked())
@@ -381,6 +431,11 @@ public class CompanionActivity extends Activity
         else if(weather.isChecked() && !theme.isChecked())
             imageSwitcher.setImageResource(R.drawable.void_weather);
         else if(!weather.isChecked() && !theme.isChecked())
+            imageSwitcher.setImageResource(R.drawable.void_sample);
+        */
+        if(theme.isChecked())
+            imageSwitcher.setImageResource(R.drawable.void_light);
+        else
             imageSwitcher.setImageResource(R.drawable.void_sample);
     }
 
@@ -409,7 +464,7 @@ public class CompanionActivity extends Activity
 
         protected String doInBackground(String... symbol) {
 
-            // http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI,GOOG&f=npc4p2&e=.csv
+            // http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI,GOOG&f=nl1c4p2&e=.csv
 
             String result = "";
 
@@ -418,7 +473,7 @@ public class CompanionActivity extends Activity
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
-            HttpGet httpGet = new HttpGet("http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI," + symbol[0] +"&f=npc4p2&e=.csv");
+            HttpGet httpGet = new HttpGet("http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI," + symbol[0] +"&f=nl1c4p2&e=.csv");
             try {
                 response = httpClient.execute(httpGet, localContext);
                 InputStreamReader is = new InputStreamReader(response.getEntity().getContent());

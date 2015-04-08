@@ -148,28 +148,28 @@ public final class R {
 		public static final int ic_full_sad = 0x7f02006e;
 	}
 	public static final class id {
-		public static final int action_error = 0x7f0b0012;
-		public static final int action_success = 0x7f0b0014;
-		public static final int all = 0x7f0b0000;
-		public static final int animation = 0x7f0b0015;
-		public static final int bottom = 0x7f0b0001;
-		public static final int center = 0x7f0b0008;
-		public static final int center_horizontal = 0x7f0b0009;
-		public static final int center_vertical = 0x7f0b000a;
-		public static final int dismiss_overlay_button = 0x7f0b0018;
-		public static final int dismiss_overlay_explain = 0x7f0b0017;
-		public static final int error_message = 0x7f0b0013;
-		public static final int left = 0x7f0b0002;
-		public static final int message = 0x7f0b0016;
-		public static final int right = 0x7f0b0003;
-		public static final int text = 0x7f0b001a;
-		public static final int title = 0x7f0b0019;
-		public static final int top = 0x7f0b0004;
+		public static final int action_error = 0x7f0c0011;
+		public static final int action_success = 0x7f0c0013;
+		public static final int all = 0x7f0c0000;
+		public static final int animation = 0x7f0c0014;
+		public static final int bottom = 0x7f0c0001;
+		public static final int center = 0x7f0c0008;
+		public static final int center_horizontal = 0x7f0c0009;
+		public static final int center_vertical = 0x7f0c000a;
+		public static final int dismiss_overlay_button = 0x7f0c0017;
+		public static final int dismiss_overlay_explain = 0x7f0c0016;
+		public static final int error_message = 0x7f0c0012;
+		public static final int left = 0x7f0c0002;
+		public static final int message = 0x7f0c0015;
+		public static final int right = 0x7f0c0003;
+		public static final int text = 0x7f0c0019;
+		public static final int title = 0x7f0c0018;
+		public static final int top = 0x7f0c0004;
 	}
 	public static final class layout {
-		public static final int confirmation_activity_layout = 0x7f030002;
-		public static final int dismiss_overlay = 0x7f030003;
-		public static final int watch_card_content = 0x7f030004;
+		public static final int confirmation_activity_layout = 0x7f030001;
+		public static final int dismiss_overlay = 0x7f030002;
+		public static final int watch_card_content = 0x7f030003;
 	}
 	public static final class style {
 		public static final int CardText = 0x7f0a0006;

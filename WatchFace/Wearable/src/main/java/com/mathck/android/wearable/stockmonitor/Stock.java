@@ -10,21 +10,28 @@ public class Stock {
 
     public Stock() {
 
-        stockPrice = 416.24f;
+        stockPrice = 0.0f;
         stockCurrency = "€";
-        stockPerformance = 2.34f;
+        stockPerformance = 0.0f;
         stockName = "Google Inc.";
         isPositive = stockPerformance >= 0;
     }
 
     // Microsoft Corporation,42.28,USD,+1.41%
-    public void setStock(String name, float price, String currency, float performance) {
+    public boolean setStock(String name, float price, String currency, float performance) {
+        boolean result = false;
+
+        if(price != stockPrice || performance != stockPerformance)
+            result = true;
+
         stockName = name;
         stockPrice = price;
         stockCurrency = currency;
         stockPerformance = performance;
 
         isPositive = stockPerformance >= 0;
+
+        return result;
     }
 
     public boolean isPositive() {

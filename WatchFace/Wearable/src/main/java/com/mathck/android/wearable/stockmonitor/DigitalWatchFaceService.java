@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
@@ -283,10 +284,11 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
                 // Microsoft Corporation,42.28,USD,+1.41%
                 try {
 
+                    boolean changesMade = false;
                     String[] data = stockData.split(",");
                     int dataLength = data.length-1;
 
-                    float stockPerformance = Float.parseFloat(data[dataLength--].replace("\"", "").replace("+", "").replace("%", ""));
+                    float stockPerformance = Float.parseFloat(data[dataLength--].replace("\"", "").replace("+", "").replace("%", "").replace("N/A", "0"));
                     String stockCurrency = data[dataLength--].replace("\"", "").replace("USD", "$").replace("EUR", "€");
                     float stockPrice = Float.parseFloat(data[dataLength].replace("\"", ""));
 
@@ -296,13 +298,20 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
                         stockName += data[cursor++];
                     }
 
-                    stockCard.mStock.setStock(
+                    changesMade = stockCard.mStock.setStock(
                             stockName.replace("\"", ""),
                             stockPrice,
                             stockCurrency,
                             stockPerformance);
 
                     invalidate();
+
+                    if(changesMade) {
+                        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                        long[] vibrationPattern = {0, 250, 0, 250};
+                        final int indexInPatternToRepeat = -1;  //-1 - don't repeat
+                        vibrator.vibrate(vibrationPattern, indexInPatternToRepeat);
+                    }
                 }
                 catch (Exception e) {
 
