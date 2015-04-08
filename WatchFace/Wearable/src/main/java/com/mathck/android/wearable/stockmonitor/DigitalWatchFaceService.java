@@ -199,10 +199,10 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
             Resources resources = DigitalWatchFaceService.this.getResources();
             boolean isRound = insets.isRound();
 
-            clock.setPositions(resources.getDisplayMetrics());
-            stockCard.setPositions(resources.getDisplayMetrics());
+            clock.setPositions(resources.getDisplayMetrics(), insets.isRound());
+            stockCard.setPositions(resources.getDisplayMetrics(), insets.isRound());
 
-            float textSize = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
+            float textSize = resources.getDimension(isRound ? R.dimen.digital_text_size : R.dimen.digital_text_size);
 
             clock.setTextSize(textSize * 1.1f);
             stockCard.setTextSize(textSize);

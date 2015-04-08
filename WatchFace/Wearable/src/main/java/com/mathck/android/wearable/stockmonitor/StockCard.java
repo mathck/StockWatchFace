@@ -79,7 +79,7 @@ public class StockCard {
 
     private String getShortName(String name) {
         return name.substring(0, Math.min(name.length(), 10)) +
-                (name.length() >= 10 ? "..." : "");
+                (name.length() >= 10 ? Character.toString ((char) 8230) : "");
     }
 
     private static Bitmap RotateBitmap(Bitmap source, float angle)
@@ -98,14 +98,18 @@ public class StockCard {
         return paint;
     }
 
-    public void setPositions(DisplayMetrics metrics) {
+    public void setPositions(DisplayMetrics metrics, boolean isRound) {
         // todo position everything using screenPercentage
 
         int screenWidth = metrics.widthPixels;
         int screenHeight = metrics.heightPixels;
 
         int centerX = (int) ((screenWidth / 2.0f));
-        int centerY = (int) ((screenHeight / 2.0f) * 1.2f);
+        int centerY = (int) ((screenHeight / 2.0f) * 1.1f);
+
+        if(!isRound) {
+            centerY = (int) ((screenHeight / 2.0f));
+        }
 
         mCardPositionX = 0;
         mCardPositionY = centerY;
@@ -114,11 +118,14 @@ public class StockCard {
 
         centerY += 5;
 
-        mTrendIconPositionX = centerX + 30;
+        mTrendIconPositionX = centerX + 20;
         mTrendIconPositionY = centerY + 22;
 
         mStockPricePositionX = centerX - 130;
-        mStockPricePositionY = centerY *  1.2f;
+        mStockPricePositionY = (centerY *  1.2f) + 5;
+
+        if(!isRound)
+            mStockPricePositionY += 15;
 
         mStockPerformancePositionX = centerX - 78;
         mStockPerformancePositionY = mStockPricePositionY + 33;
@@ -126,8 +133,16 @@ public class StockCard {
         mStockNamePositionX = centerX - 83;
         mStockNamePositionY = mStockPerformancePositionY + 25;
 
-        mTrianglePositionX = centerX - 52 - mTriangleUp.getWidth();
+        mTrianglePositionX = mStockPerformancePositionX + mTriangleUp.getWidth() - 15;
         mTrianglePositionY = mStockPerformancePositionY - mTriangleUp.getHeight() + 2;
+
+        if(!isRound) {
+            mStockPricePositionX = screenWidth * 0.075f;
+            mStockPerformancePositionX = mStockNamePositionX = mStockPricePositionX;
+            mTrianglePositionX = mStockPerformancePositionX + mTriangleUp.getWidth() + 15;
+            mStockPerformancePositionX += mTriangleUp.getWidth() + 10;
+            mTrendIconPositionX += 10;
+        }
     }
 
     public void setTextSize(float size) {

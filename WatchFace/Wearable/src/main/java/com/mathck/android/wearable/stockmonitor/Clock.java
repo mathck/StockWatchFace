@@ -36,11 +36,20 @@ public class Clock {
         mTime.setToNow();
     }
 
-    public void setPositions(DisplayMetrics metrics) {
+    public void setPositions(DisplayMetrics metrics, boolean isRound) {
         mHourPositionX = (metrics.widthPixels / 2) - 6; // 6 is for the empty room between hours and minutes
         mHourPositionY = (metrics.heightPixels / 2);
 
         mMinutePositionY = (metrics.heightPixels / 2);
+
+        if(!isRound) {
+            mHourPositionY -= mHourPositionY * 0.15f;
+            mMinutePositionY -= mMinutePositionY * 0.15f;
+        }
+        else {
+            mHourPositionY -= mHourPositionY * 0.075f;
+            mMinutePositionY -= mMinutePositionY * 0.075f;
+        }
     }
 
     public void draw(Canvas canvas, boolean isDarkTheme) {

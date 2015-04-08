@@ -61,6 +61,8 @@ import org.apache.http.protocol.HttpContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -473,7 +475,16 @@ public class CompanionActivity extends Activity
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
-            HttpGet httpGet = new HttpGet("http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI," + symbol[0] +"&f=nl1c4p2&e=.csv");
+
+            String symbolUrl = "";
+
+            try {
+                symbolUrl = URLEncoder.encode(symbol[0], "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                symbolUrl = symbol[0];
+            }
+
+            HttpGet httpGet = new HttpGet("http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI," + symbolUrl +"&f=nl1c4p2&e=.csv");
             try {
                 response = httpClient.execute(httpGet, localContext);
                 InputStreamReader is = new InputStreamReader(response.getEntity().getContent());
@@ -507,9 +518,17 @@ public class CompanionActivity extends Activity
         }
 
         protected void onPostExecute(String feed) {
+
+            if(feed.startsWith("N/A")) {
+                Toast.makeText(context, "No data was found for your symbol. Please enter another one.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
             // assign name
             sendStockUpdateMessage(STOCK, feed);
+            Toast.makeText(context, feed.split(",")[0].replace("\"", "") + " was successfully assigned.", Toast.LENGTH_LONG).show();
 
+            /*
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage(feed.split(",")[0].replace("\"", "") + " was successfully assigned.")
                     .setTitle("Stock assigned")
@@ -518,6 +537,7 @@ public class CompanionActivity extends Activity
 
             AlertDialog dialog = builder.create();
             dialog.show();
+            */
         }
     }
 }
