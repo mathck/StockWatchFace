@@ -205,7 +205,7 @@ public class DigitalWatchFaceService extends CanvasWatchFaceService {
             float textSize = resources.getDimension(isRound ? R.dimen.digital_text_size : R.dimen.digital_text_size);
 
             clock.setTextSize(textSize * 1.1f);
-            stockCard.setTextSize(textSize);
+            stockCard.setTextSize(textSize, resources.getDisplayMetrics(), insets.isRound());
         }
 
         @Override

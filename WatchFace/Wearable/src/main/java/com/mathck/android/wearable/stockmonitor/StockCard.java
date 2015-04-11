@@ -1,5 +1,6 @@
 package com.mathck.android.wearable.stockmonitor;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,7 +42,7 @@ public class StockCard {
                         mStockPerformancePaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
 
         mStockNamePaint = createTextPaint();
-        mStockNamePaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        mStockNamePaint.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
 
         mCardColorPaintGreen = new Paint();
         mCardColorPaintGreen.setColor(resources.getColor(R.color.green));
@@ -99,59 +100,83 @@ public class StockCard {
     }
 
     public void setPositions(DisplayMetrics metrics, boolean isRound) {
-        // todo position everything using screenPercentage
+        float sWidth = metrics.widthPixels;
+        float sHeight = metrics.heightPixels;
 
-        int screenWidth = metrics.widthPixels;
-        int screenHeight = metrics.heightPixels;
+        int centerX = (int) ((sWidth / 2.0f));
+        int centerY = (int) ((sHeight / 2.0f) * 1.1f);
 
-        int centerX = (int) ((screenWidth / 2.0f));
-        int centerY = (int) ((screenHeight / 2.0f) * 1.1f);
-
-        if(!isRound) {
-            centerY = (int) ((screenHeight / 2.0f));
-        }
+        if(!isRound) // isSquare =
+            centerY = (int) ((sHeight / 2.0f));
 
         mCardPositionX = 0;
         mCardPositionY = centerY;
-        mCardWidth = screenWidth;
-        mCardHeight = screenHeight;
+        mCardWidth = sWidth;
+        mCardHeight = sHeight;
 
-        centerY += 5;
+        centerY *= 1.08f;
 
-        mTrendIconPositionX = centerX + 20;
-        mTrendIconPositionY = centerY + 22;
+        // TREND ICON
+        mTrendIconPositionX = centerX + (sWidth * 0.11f);
+        if(!isRound)
+            mTrendIconPositionX = centerX * 1.1f;
+        mTrendIconPositionY = (centerY * 1.075f);
 
-        mStockPricePositionX = centerX - 130;
-        mStockPricePositionY = (centerY *  1.2f) + 5;
+        // 501,30 €
+        mStockPricePositionX = (sWidth * 0.115f);
+        mStockPricePositionY = (centerY *  1.2f);
 
         if(!isRound)
-            mStockPricePositionY += 15;
+            mStockPricePositionY += (sWidth * 0.03f);
 
-        mStockPerformancePositionX = centerX - 78;
-        mStockPerformancePositionY = mStockPricePositionY + 33;
+        // ARROW
+        mTrianglePositionX = (sWidth * 0.245f) + mTriangleUp.getWidth();
+        mTrianglePositionY = mStockPricePositionY + (sHeight * 0.133f) - mTriangleUp.getHeight();
 
-        mStockNamePositionX = centerX - 83;
-        mStockNamePositionY = mStockPerformancePositionY + 25;
+        // 1,23 %
+        mStockPerformancePositionX = (sWidth * 0.29f);
+        mStockPerformancePositionY = mStockPricePositionY + (sHeight * 0.13f);
 
-        mTrianglePositionX = mStockPerformancePositionX + mTriangleUp.getWidth() - 15;
-        mTrianglePositionY = mStockPerformancePositionY - mTriangleUp.getHeight() + 2;
+        // GOOGLE-C
+        mStockNamePositionX = (sWidth * 0.32f);
+        mStockNamePositionY = mStockPerformancePositionY + (sHeight * 0.1f);
 
-        if(!isRound) {
-            mStockPricePositionX = screenWidth * 0.075f;
+        if(!isRound) { // isSquare =
+            mStockPricePositionX = sWidth * 0.075f;
             mStockPerformancePositionX = mStockNamePositionX = mStockPricePositionX;
-            mTrianglePositionX = mStockPerformancePositionX + mTriangleUp.getWidth() + 15;
-            mStockPerformancePositionX += mTriangleUp.getWidth() + 10;
-            mTrendIconPositionX += 10;
+            mTrianglePositionX = mStockPerformancePositionX + mTriangleUp.getWidth() + (sWidth * 0.055f);
+            mStockPerformancePositionX += mTriangleUp.getWidth() + (sWidth * 0.045f);
+            mTrendIconPositionX += (sWidth * 0.08f);
+            mTrendIconPositionY += (sHeight * 0.03f);
         }
     }
 
-    public void setTextSize(float size) {
-        mStockPricePaint.setTextSize(size * 0.375f);
-        mStockPerformancePaint.setTextSize(size * 0.30f);
-        mStockNamePaint.setTextSize(size * 0.20f);
+    public void setTextSize(float size, DisplayMetrics metrics, boolean isRound) {
+        if(!isRound) { // isSquare =>
+            mStockPricePaint.setTextSize(size * 0.375f);
+            mStockPerformancePaint.setTextSize(size * 0.30f);
+            mStockNamePaint.setTextSize(size * 0.17f);
+        }
+        else { // isRound =>
+            float sWidth = metrics.widthPixels;
+
+            mStockPricePaint.setTextSize(convertPixelsToDp(size * 0.55f, metrics));
+            mStockPerformancePaint.setTextSize(convertPixelsToDp(size * 0.45f, metrics));
+            mStockNamePaint.setTextSize(convertPixelsToDp(size * 0.26f, metrics));
+        }
     }
 
     public void drawBackground(Canvas canvas, boolean isDarkTheme) {
         canvas.drawColor(isDarkTheme ? mDarkThemeColor : mLightThemeColor);
+    }
+
+    public static int convertDpToPixel(float dp, DisplayMetrics metrics) {
+        float px = dp * (metrics.densityDpi / 160f);
+        return (int) px;
+    }
+
+    public static float convertPixelsToDp(float px, DisplayMetrics metrics) {
+        float dp = px / (metrics.densityDpi / 160f);
+        return dp;
     }
 }
