@@ -2,27 +2,6 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="0dcc55e70f7ebf7238fe2ec53f662eb378ab2668">
-        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-d64e3a6e7212754becd4af6e4428a5fd38d611f1.jar" />
-    </item>
-    <item
-        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.0\classes.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="efeda77c808750cb670ee9c48d8a1835d89dbcb2">
-        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-2434341a5b6cfbe946d9ea1d02b07764bcb36f79.jar" />
-    </item>
-    <item
-        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.0\classes.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="efeda77c808750cb670ee9c48d8a1835d89dbcb2">
-        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-885df79d080163836b177c8c50469175720cba52.jar" />
-    </item>
-    <item
         jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\6.5.87\classes.jar"
         jumboMode="false"
         revision="21.1.1"
@@ -44,11 +23,11 @@
         <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-54c79bba7351b819949694c54e4db57c54fbc90b.jar" />
     </item>
     <item
-        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.1"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-723c7a273337001a5da4cb036afa4e09faf705d0.jar" />
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-6bc4c760c345a7c2abac17253a0d7e844ab94a8a.jar" />
     </item>
     <item
         jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\6.5.87\classes.jar"
@@ -58,25 +37,11 @@
         <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-6c74d18c9d4d3f919d84dfea57e5570d8e0f5701.jar" />
     </item>
     <item
-        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-6bc4c760c345a7c2abac17253a0d7e844ab94a8a.jar" />
-    </item>
-    <item
         jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\6.5.87\classes.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="6384c6cd674a22610b932d9464aa6938d067f285">
         <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-1c05644cc0b502774149658b35256d265bb54db2.jar" />
-    </item>
-    <item
-        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.google.android.support\wearable\1.1.0\classes.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="27f19641b81b1078e653d2f0e5d1ed44d158a785">
-        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-578fedae3769648d2cf289df42b606cf03e0a0df.jar" />
     </item>
     <item
         jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.3\libs\internal_impl-21.0.3.jar"
@@ -91,13 +56,6 @@
         revision="21.1.1"
         sha1="2c2071dcaf7a008c3b01a6381a33be55396bab09">
         <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-f8085dcd3b52fa2c9da59cc15340b44c66e647dd.jar" />
-    </item>
-    <item
-        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-4c28bcd962e9cfd97d1c381e0ad14fed18d4de63.jar" />
     </item>
     <item
         jar="C:\Users\mathc_000\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
@@ -119,6 +77,48 @@
         revision="21.1.1"
         sha1="95482e7c792a7c0d5a9d5461e97726bd54fe9549">
         <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-ac1eaca5b41aa539f4e581f8653aef686e7f5b22.jar" />
+    </item>
+    <item
+        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="efeda77c808750cb670ee9c48d8a1835d89dbcb2">
+        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-2434341a5b6cfbe946d9ea1d02b07764bcb36f79.jar" />
+    </item>
+    <item
+        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="0dcc55e70f7ebf7238fe2ec53f662eb378ab2668">
+        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-d64e3a6e7212754becd4af6e4428a5fd38d611f1.jar" />
+    </item>
+    <item
+        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="efeda77c808750cb670ee9c48d8a1835d89dbcb2">
+        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\classes-885df79d080163836b177c8c50469175720cba52.jar" />
+    </item>
+    <item
+        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-723c7a273337001a5da4cb036afa4e09faf705d0.jar" />
+    </item>
+    <item
+        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\exploded-aar\com.google.android.support\wearable\1.1.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="27f19641b81b1078e653d2f0e5d1ed44d158a785">
+        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Wearable\build\intermediates\pre-dexed\debug\classes-578fedae3769648d2cf289df42b606cf03e0a0df.jar" />
+    </item>
+    <item
+        jar="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\mathc_000\AndroidStudioProjects\WatchFace\Application\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-4c28bcd962e9cfd97d1c381e0ad14fed18d4de63.jar" />
     </item>
 
 </items>

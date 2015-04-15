@@ -511,7 +511,8 @@ public class CompanionActivity extends Activity
                 }
 
             } catch (IOException e) {
-                Toast.makeText(context, e.getStackTrace().toString(), Toast.LENGTH_LONG).show();
+                // this caused an error
+                //Toast.makeText(context, e.getStackTrace().toString(), Toast.LENGTH_LONG).show();
             }
 
             return result;
@@ -526,7 +527,11 @@ public class CompanionActivity extends Activity
 
             // assign name
             sendStockUpdateMessage(STOCK, feed);
-            Toast.makeText(context, feed.split(",")[0].replace("\"", "") + " was successfully assigned.", Toast.LENGTH_LONG).show();
+
+            try {
+                Toast.makeText(context, feed.split(",")[0].replace("\"", "") + " was successfully assigned.", Toast.LENGTH_LONG).show();
+            }
+            catch (Exception ignored) { }
 
             /*
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
