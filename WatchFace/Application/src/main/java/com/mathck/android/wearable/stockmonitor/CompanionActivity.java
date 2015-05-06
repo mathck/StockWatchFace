@@ -492,7 +492,7 @@ public class CompanionActivity extends Activity
 
                 try {
                     String line;
-                    reader.readLine();
+                    //reader.readLine();
                     while ((line = reader.readLine()) != null) {
                         result = line;
                     }
